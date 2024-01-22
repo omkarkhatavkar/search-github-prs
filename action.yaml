@@ -1,0 +1,37 @@
+---
+name: "search-github-prs"
+description: >-
+  GitHub Action to search and fetch details of a PR based on title
+
+branding:
+  icon: search
+  color: green
+
+inputs:
+  repo:
+    description: >-
+      github repo name
+    required: true
+    default: ${{ github.event.repository.name }}
+  title:
+    description: >-
+      title of the GitHub pull request to search and fetch details
+    required: true
+
+outputs:
+  details:
+    description: return the matching PR details
+    value: ${{ steps.outcome.outputs.details }}
+  result:
+    description: return the result after matched result
+    value: ${{ steps.outcome.outputs.result }}
+
+runs:
+  using: composite
+  steps:
+    - shell: bash
+      run: |
+        export PYTHONPATH=${{ github.action_path }}:${{ github.action_path }}/vendor
+        python3 -m search-github-prs \
+          --repo="${{ inputs.repo }}" \
+          --title="${{ inputs.title }}"
