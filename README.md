@@ -1,4 +1,4 @@
-# wait-for-status-checks
+# search-github-prs
 GitHub Action for searching and filtering Pull Requests based on specified criteria. This action is designed to retrieve a list of Pull Requests from a GitHub repository and filter them based on user-defined criteria, providing a customizable and efficient way to manage and analyze your Pull Requests.
 
 
