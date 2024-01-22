@@ -4,11 +4,11 @@ GitHub Action for searching and filtering Pull Requests based on specified crite
 
 ## Inputs
 
-| Input           | Description                                                  | Required| Default                           |
-|-----------------|--------------------------------------------------------------|---------|-----------------------------------|
+| Input           | Description                                                  | Required| Default                             |
+|-----------------|--------------------------------------------------------------|---------|-------------------------------------|
 | `repo`          | Github repo name e.g. owner/repo_name                        | Yes     | ${{ github.event.repository.name }} |
-| `title`         | Title of the GitHub pull request to search and fetch details | Yes     | None                              |
-
+| `title`         | Title of the GitHub pull request to search and fetch details | Yes     | None                                |
+| `repo_token`    | Pass the github token for authentication                     | Yes     | ${{ secret.GITHUB_TOKEN }}          |
 
 
 ## outputs

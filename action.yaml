@@ -13,6 +13,10 @@ inputs:
       github repo name
     required: true
     default: ${{ github.event.repository.name }}
+  repo_token:
+    description: >-
+      github repo token
+    default: ${{ github.token }}
   title:
     description: >-
       title of the GitHub pull request to search and fetch details
@@ -31,7 +35,10 @@ runs:
   steps:
     - shell: bash
       run: |
-        export PYTHONPATH=${{ github.action_path }}:${{ github.action_path }}/vendor
+        export PYTHONPATH=${{ github.action_path }}
+        pip install --upgrade pip
+        pip install pygithub
         python3 -m search-github-prs \
           --repo="${{ inputs.repo }}" \
-          --title="${{ inputs.title }}"
+          --title="${{ inputs.title }}" \
+          --repo_token="{{ inputs.repo_token }}"

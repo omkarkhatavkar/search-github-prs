@@ -30,25 +30,16 @@ def set_gha_output(name, value):
 
 
 def main(arguments):
-    pr_details = {}
-    response = requests.get(api_endpoint)
-    if not response.ok:
-        error_details = (
-            response.json()
-            if "application/json" in response.headers.get("content-type", "")
-            else response.text
-        )
-        write_to_summary("Error occured while making an API call", is_error=True)
-        write_to_summary(f"Error Details: \n {error_details} ")
-        sys.exit(1)
+    from github import Github
 
-    pr_list = json.loads(response.text)
+    github = Github(arguments.repo_token)
+    repo = github.get_repo(arguments.repo)
+    pr_list = repo.get_pulls()
     pr_details = []
-    if isinstance(pr_list, list):
-        for pr in pr_list:
-            if pr["title"] == arguments.title:
-                write_to_summary("Found the matching PR.")
-                pr_details.append({"html_url": pr["html_url"]})
+    for pr in pr_list:
+        if pr.title == arguments.title:
+            write_to_summary("Found the matching PR.")
+            pr_details.append({"html_url": pr.html_url})
     set_gha_output("details", json.dumps(pr_details))
     if len(pr_details):
         set_gha_output("result", "success")
@@ -63,7 +54,11 @@ if __name__ == "__main__":
     parser.add_argument(
         "--repo", required=True, type=str, help="Github repo name e.g. owner/repo_name"
     )
-    parser.add_argument("--title", required=True, type=str, help="Title of PR name")
+    parser.add_argument("--title", required=True,
+                        type=str, help="Title of PR name")
+    parser.add_argument(
+        "--repo_token", required=True, type=str, help="Repo Token for authentication"
+    )
     arguments = parser.parse_args()
     global api_endpoint
     api_endpoint = f"https://api.github.com/repos/{arguments.repo}/pulls"
