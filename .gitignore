@@ -121,7 +121,8 @@ celerybeat.pid
 search-github-prs/output.txt
 search-github-prs/summary.txt
 
-# Editor 
+
+# Editor
 .DS_Store
 .idea/
 

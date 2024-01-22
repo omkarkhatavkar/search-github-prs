@@ -49,7 +49,7 @@ def main(arguments):
             if pr["title"] == arguments.title:
                 write_to_summary("Found the matching PR.")
                 pr_details.append({"html_url": pr["html_url"]})
-    set_gha_output("details", pr_details)
+    set_gha_output("details", json.dumps(pr_details))
     if len(pr_details):
         set_gha_output("result", "success")
     else:
